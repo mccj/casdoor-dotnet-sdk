@@ -1,5 +1,6 @@
 using System.Globalization;
 using Casdoor.Client.UnitTests.Fixtures;
+using Casdoor.Client.UnitTests.Utilities;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit.Abstractions;
 
@@ -21,7 +22,7 @@ public class PlanTest : IClassFixture<ServicesFixture>
     {
         var userClient = _servicesFixture.ServiceProvider.GetService<ICasdoorClient>();
 
-        const string appName = $"group-a";
+        string appName = TestUtils.GetRandomName("plan");
         const string ownerName = "casbin";
 
         var plan = new CasdoorPlan()
@@ -48,7 +49,7 @@ public class PlanTest : IClassFixture<ServicesFixture>
         foreach (CasdoorPlan casdoorPlan in getPlans)
         {
             _testOutputHelper.WriteLine(casdoorPlan.Name);
-            if (casdoorPlan.Name is appName)
+            if (casdoorPlan.Name == appName)
             {
                 found = true;
             }

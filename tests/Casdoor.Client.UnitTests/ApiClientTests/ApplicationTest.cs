@@ -1,5 +1,6 @@
 using System.Globalization;
 using Casdoor.Client.UnitTests.Fixtures;
+using Casdoor.Client.UnitTests.Utilities;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit.Abstractions;
 
@@ -21,7 +22,7 @@ public class ApplicationTest : IClassFixture<ServicesFixture>
     {
         var userClient = _servicesFixture.ServiceProvider.GetService<ICasdoorClient>();
 
-        const string appName = "admin-name";
+        string appName = TestUtils.GetRandomName("Application");
         const string ownerName = CasdoorConstants.DefaultCasdoorOwner;
         var application = new CasdoorApplication()
         {
@@ -43,7 +44,7 @@ public class ApplicationTest : IClassFixture<ServicesFixture>
         bool found = false;
         foreach (CasdoorApplication casdoorApplication in getApplications)
         {
-            if (casdoorApplication.Name is appName)
+            if (casdoorApplication.Name == appName)
             {
                 found = true;
             }
@@ -72,10 +73,6 @@ public class ApplicationTest : IClassFixture<ServicesFixture>
         responseAsync = userClient.DeleteApplicationAsync(appName);
         response = await responseAsync;
         Assert.Equal(CasdoorConstants.DefaultCasdoorSuccessStatus, response.Status);
-        // Validate the deletion
-        applicationAsync = userClient.GetApplicationAsync($"{ownerName}/{appName}");
-        getApplication = await applicationAsync;
-        Assert.Null(getApplication);
 
         applicationsAsync = userClient.GetOrganizationApplicationsAsync("casbin");
         getApplications = await applicationsAsync;

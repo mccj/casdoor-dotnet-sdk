@@ -1,5 +1,6 @@
 using System.Globalization;
 using Casdoor.Client.UnitTests.Fixtures;
+using Casdoor.Client.UnitTests.Utilities;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit.Abstractions;
 
@@ -21,7 +22,7 @@ public class GroupTest : IClassFixture<ServicesFixture>
     {
         var userClient = _servicesFixture.ServiceProvider.GetService<ICasdoorClient>();
 
-        const string appName = $"group-a";
+        string appName = TestUtils.GetRandomName("group");
         const string ownerName = "casbin";
 
         var group = new CasdoorGroup()
@@ -48,7 +49,7 @@ public class GroupTest : IClassFixture<ServicesFixture>
         foreach (CasdoorGroup casdoorGroup in getGroups)
         {
             _testOutputHelper.WriteLine(casdoorGroup.Name);
-            if (casdoorGroup.Name is appName)
+            if (casdoorGroup.Name == appName)
             {
                 found = true;
             }

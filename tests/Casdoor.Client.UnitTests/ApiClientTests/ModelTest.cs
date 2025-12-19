@@ -1,5 +1,6 @@
 using System.Globalization;
 using Casdoor.Client.UnitTests.Fixtures;
+using Casdoor.Client.UnitTests.Utilities;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit.Abstractions;
 
@@ -21,7 +22,7 @@ public class ModelTest : IClassFixture<ServicesFixture>
     {
         var userClient = _servicesFixture.ServiceProvider.GetService<ICasdoorClient>();
 
-        const string appName = $"model-name-4";
+        string appName = TestUtils.GetRandomName("model");
         const string ownerName = "casbin";
         const string modelText = @"[request_definition]
 r = sub, obj, act
@@ -59,7 +60,7 @@ m = g(r.sub, p.sub) && r.obj == p.obj && r.act == p.act";
         foreach (CasdoorModel casdoorModel in getModels)
         {
             _testOutputHelper.WriteLine(casdoorModel.Name);
-            if (casdoorModel.Name is appName)
+            if (casdoorModel.Name == appName)
             {
                 found = true;
             }
