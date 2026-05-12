@@ -18,7 +18,7 @@ public class PlanTest : IClassFixture<ServicesFixture>
     }
 
     [Fact]
-    public async void TestPlan()
+    public async Task TestPlan()
     {
         var userClient = _servicesFixture.ServiceProvider.GetService<ICasdoorClient>();
 
@@ -31,6 +31,7 @@ public class PlanTest : IClassFixture<ServicesFixture>
             Name = appName,
             CreatedTime = DateTime.Now.ToString(CultureInfo.InvariantCulture),
             DisplayName = appName,
+            Currency="CNY",
         };
 
         // Add a new object
